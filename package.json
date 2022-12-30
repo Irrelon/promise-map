@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/Irrelon/promise-map#readme",
   "devDependencies": {
-    "mocha": "^6.2.0"
+    "mocha": "^10.2.0"
   }
 }
