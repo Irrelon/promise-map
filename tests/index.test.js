@@ -1,10 +1,10 @@
-const assert = require("assert");
+const assert = require("node:assert");
 const promiseMap = require("../index");
 
 describe("promiseMap()", () => {
 	it("Will catch at the end of the chain when an error occurs", async () => {
 		let errCalled = 0;
-		
+
 		await Promise.resolve().then(() => {
 			return promiseMap({
 				foo: new Promise((resolve, reject) => {
@@ -16,7 +16,7 @@ describe("promiseMap()", () => {
 		}).catch((err) => {
 			errCalled++;
 		});
-		
+
 		assert.strictEqual(errCalled, 1, "Error was catch called correct number of times");
 	});
 });
