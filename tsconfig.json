@@ -1,24 +1,36 @@
 {
-  "compilerOptions": {
-    "strict": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "sourceMap": true,
-    "module": "ESNext",
-    "noEmit": false,
-    "moduleResolution": "node",
-    "target": "ES2020",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
-    "types": [
-
-    ],
-    "jsx": "preserve",
-    "jsxImportSource": "react",
-    "verbatimModuleSyntax": true
-  }
+	"compilerOptions": {
+		"downlevelIteration": true,
+		"baseUrl": ".",
+		"target": "es6",
+		"lib": [
+			"esnext"
+		],
+		"allowJs": false,
+		"skipLibCheck": false,
+		"strict": true,
+		"pretty": true,
+		"allowSyntheticDefaultImports": true,
+		"forceConsistentCasingInFileNames": true,
+		"noEmit": false,
+		"incremental": true,
+		"esModuleInterop": true,
+		"module": "es2022",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"declaration": true,
+		"inlineSourceMap": false,
+		"types": ["node", "jest"]
+	},
+	"include": [
+		"src/**/*.ts",
+		"tests/*.ts",
+		"tests/**/*.ts",
+		"src/**/*.tsx"
+	],
+	"exclude": [
+		"node_modules",
+		"dist"
+	]
 }

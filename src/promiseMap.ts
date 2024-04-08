@@ -1,7 +1,7 @@
-export function PromiseMap (obj: Record<string, () => Promise<any>>) {
+export default function promiseMap (obj: Record<string, Promise<any>>) {
 	return new Promise((resolve, reject) => {
 		const objKeyArr = Object.keys(obj);
-		const promiseArr: (() => Promise<any>)[] = [];
+		const promiseArr: Promise<any>[] = [];
 
 		objKeyArr.forEach((key) => {
 			promiseArr.push(obj[key]);

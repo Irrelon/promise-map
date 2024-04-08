@@ -1,4 +1,6 @@
-export function PromiseMap(obj) {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+function promiseMap(obj) {
     return new Promise((resolve, reject) => {
         const objKeyArr = Object.keys(obj);
         const promiseArr = [];
@@ -16,4 +18,4 @@ export function PromiseMap(obj) {
         });
     });
 }
-//# sourceMappingURL=index.js.map
+exports.default = promiseMap;
