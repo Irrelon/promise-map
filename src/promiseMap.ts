@@ -1,22 +1,26 @@
-export default function promiseMap (obj: Record<string, Promise<any>>) {
-	return new Promise((resolve, reject) => {
-		const objKeyArr = Object.keys(obj);
-		const promiseArr: Promise<any>[] = [];
+export default async function promiseMap (obj: Record<string, Promise<any>>, settleAll = false) {
+	const objKeyArr = Object.keys(obj);
+	const promiseArr: Promise<any>[] = [];
 
-		objKeyArr.forEach((key) => {
-			promiseArr.push(obj[key]);
-		});
-
-		Promise.all(promiseArr).then((results) => {
-			const finalObj: Record<string, () => any> = {};
-
-			objKeyArr.forEach((key, index) => {
-				finalObj[key] = results[index];
-			});
-
-			resolve(finalObj);
-		}).catch((err) => {
-			reject(err);
-		});
+	objKeyArr.forEach((key) => {
+		promiseArr.push(obj[key]);
 	});
+
+	let results;
+
+	if (settleAll) {
+		results = await Promise.allSettled(promiseArr);
+	} else {
+		results = await Promise.all(promiseArr).catch((err) => {
+			throw err;
+		});
+	}
+
+	const finalObj: Record<string, () => any> = {};
+
+	objKeyArr.forEach((key, index) => {
+		finalObj[key] = results[index];
+	});
+
+	return finalObj;
 }
