@@ -22,10 +22,10 @@ npm i @irrelon/promise-map
 ## Usage
 ### TypeScript and ES6 Modules
 ```js
-import promiseMap from "@irrelon/promise-map";
+import {promiseMap} from "@irrelon/promise-map";
 ```
 
 ### CommonJS
 ```js
-const promiseMap = require("@irrelon/promise-map").default;
+const {promiseMap} = require("@irrelon/promise-map").default;
 ```

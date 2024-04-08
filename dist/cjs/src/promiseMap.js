@@ -26,12 +26,10 @@ function promiseMap(obj_1) {
                 throw err;
             });
         }
-        const finalObj = {};
-        objKeyArr.forEach((key, index) => {
-            finalObj[key] = results[index];
-        });
-        return finalObj;
+        return objKeyArr.reduce((newObj, key, index) => {
+            newObj[key] = results[index];
+            return newObj;
+        }, {});
     });
 }
 exports.promiseMap = promiseMap;
-exports.default = promiseMap;

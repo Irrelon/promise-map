@@ -1,5 +1,4 @@
-declare function promiseMap(obj: Record<string, Promise<any>>): Promise<Record<string, any>>;
-declare function promiseMap(obj: Record<string, Promise<any>>, settleAll: true): Promise<Record<string, PromiseSettledResult<any>>>;
-declare function promiseMap(obj: Record<string, Promise<any>>, settleAll: false): Promise<Record<string, any>>;
+declare function promiseMap<MapType extends Record<string, Promise<any>>>(obj: MapType): Promise<Record<keyof MapType, any>>;
+declare function promiseMap<MapType extends Record<string, Promise<any>>>(obj: MapType, settleAll: true): Promise<Record<keyof MapType, PromiseSettledResult<any>>>;
+declare function promiseMap<MapType extends Record<string, Promise<any>>>(obj: MapType, settleAll: false): Promise<Record<keyof MapType, any>>;
 export { promiseMap };
-export default promiseMap;

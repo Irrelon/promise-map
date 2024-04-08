@@ -1,8 +1,8 @@
-async function promiseMap (obj: Record<string, Promise<any>>): Promise<Record<string, any>>;
-async function promiseMap (obj: Record<string, Promise<any>>, settleAll: true): Promise<Record<string, PromiseSettledResult<any>>>;
-async function promiseMap (obj: Record<string, Promise<any>>, settleAll: false): Promise<Record<string, any>>;
-async function promiseMap (obj: Record<string, Promise<any>>, settleAll = false): Promise<Record<string, any>> {
-	const objKeyArr = Object.keys(obj);
+async function promiseMap<MapType extends Record<string, Promise<any>>>(obj: MapType): Promise<Record<keyof MapType, any>>;
+async function promiseMap<MapType extends Record<string, Promise<any>>> (obj: MapType, settleAll: true): Promise<Record<keyof MapType, PromiseSettledResult<any>>>;
+async function promiseMap<MapType extends Record<string, Promise<any>>> (obj: MapType, settleAll: false): Promise<Record<keyof MapType, any>>;
+async function promiseMap<MapType extends Record<string, Promise<any>>> (obj: MapType, settleAll = false): Promise<Record<keyof MapType, any>> {
+	const objKeyArr: (keyof MapType)[] = Object.keys(obj);
 	const promiseArr: Promise<any>[] = [];
 
 	objKeyArr.forEach((key) => {
@@ -19,16 +19,12 @@ async function promiseMap (obj: Record<string, Promise<any>>, settleAll = false)
 		});
 	}
 
-	const finalObj: Record<string, () => any> = {};
-
-	objKeyArr.forEach((key, index) => {
-		finalObj[key] = results[index];
-	});
-
-	return finalObj;
+	return objKeyArr.reduce((newObj: Partial<Record<keyof MapType, () => any>>, key, index) => {
+		newObj[key] = results[index];
+		return newObj;
+	}, {}) as Record<keyof MapType, () => any>;
 }
 
 export {
 	promiseMap
 };
-export default promiseMap;
