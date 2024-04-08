@@ -9,6 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.promiseMap = void 0;
 function promiseMap(obj_1) {
     return __awaiter(this, arguments, void 0, function* (obj, settleAll = false) {
         const objKeyArr = Object.keys(obj);
@@ -32,4 +33,5 @@ function promiseMap(obj_1) {
         return finalObj;
     });
 }
+exports.promiseMap = promiseMap;
 exports.default = promiseMap;

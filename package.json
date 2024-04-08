@@ -1,6 +1,6 @@
 {
   "name": "@irrelon/promise-map",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Simple helper function to name promises rather than handling them as an array of unnamed indexes.",
   "main": "dist/cjs/src/promiseMap.js",
   "module": "dist/esm/src/promiseMap.js",
@@ -14,6 +14,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest --testMatch \"**/*.test.js\"",
     "build": "tsc -p tsconfig-esm.json && tsc -p tsconfig-cjs.json && sh ./fixup.sh && npm run fixPaths",
     "build-watch": "tsc --watch",
+    "build-test": "npm run build && npm run test",
     "fixPaths": "npx @irrelon/fix-paths --write"
   },
   "repository": {

@@ -1,4 +1,7 @@
-export default async function promiseMap (obj: Record<string, Promise<any>>, settleAll = false) {
+async function promiseMap (obj: Record<string, Promise<any>>): Promise<Record<string, any>>;
+async function promiseMap (obj: Record<string, Promise<any>>, settleAll: true): Promise<Record<string, PromiseSettledResult<any>>>;
+async function promiseMap (obj: Record<string, Promise<any>>, settleAll: false): Promise<Record<string, any>>;
+async function promiseMap (obj: Record<string, Promise<any>>, settleAll = false): Promise<Record<string, any>> {
 	const objKeyArr = Object.keys(obj);
 	const promiseArr: Promise<any>[] = [];
 
@@ -24,3 +27,8 @@ export default async function promiseMap (obj: Record<string, Promise<any>>, set
 
 	return finalObj;
 }
+
+export {
+	promiseMap
+};
+export default promiseMap;

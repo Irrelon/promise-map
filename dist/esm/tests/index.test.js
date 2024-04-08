@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import promiseMap from "../src/promiseMap";
+import { promiseMap } from "../src/promiseMap";
 describe("promiseMap()", () => {
     it("Will resolve correctly to an object", async () => {
         const result = await promiseMap({
@@ -29,5 +29,23 @@ describe("promiseMap()", () => {
             errCalled++;
         });
         assert.strictEqual(errCalled, 1, "Error was catch called correct number of times");
+    });
+    it("Will resolve at the end of the chain when an error occurs and `settleAll` option is set true", async () => {
+        const result = await promiseMap({
+            foo: new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(1234);
+                }, 1000);
+            }),
+            bar: new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    reject(4321);
+                }, 500);
+            })
+        }, true);
+        assert.strictEqual(result.foo.status, "fulfilled", "Resolved value is correct");
+        assert.strictEqual(result.foo.value, 1234, "Resolved value is correct");
+        assert.strictEqual(result.bar.status, "rejected", "Resolved value is correct");
+        assert.strictEqual(result.bar.reason, 4321, "Resolved value is correct");
     });
 });

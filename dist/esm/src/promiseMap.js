@@ -1,4 +1,4 @@
-export default async function promiseMap(obj, settleAll = false) {
+async function promiseMap(obj, settleAll = false) {
     const objKeyArr = Object.keys(obj);
     const promiseArr = [];
     objKeyArr.forEach((key) => {
@@ -19,3 +19,5 @@ export default async function promiseMap(obj, settleAll = false) {
     });
     return finalObj;
 }
+export { promiseMap };
+export default promiseMap;
