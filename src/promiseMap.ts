@@ -1,30 +1,30 @@
-async function promiseMap<MapType extends Record<string, Promise<any>>>(obj: MapType): Promise<Record<keyof MapType, any>>;
-async function promiseMap<MapType extends Record<string, Promise<any>>> (obj: MapType, settleAll: true): Promise<Record<keyof MapType, PromiseSettledResult<any>>>;
-async function promiseMap<MapType extends Record<string, Promise<any>>> (obj: MapType, settleAll: false): Promise<Record<keyof MapType, any>>;
-async function promiseMap<MapType extends Record<string, Promise<any>>> (obj: MapType, settleAll = false): Promise<Record<keyof MapType, any>> {
-	const objKeyArr: (keyof MapType)[] = Object.keys(obj);
-	const promiseArr: Promise<any>[] = [];
+type PromiseMap = {
+	[key: string]: Promise<any>;
+};
+type ResolvedPromiseMap<T extends PromiseMap> = Promise<{ [K in keyof T]: Awaited<T[K]> }>
 
-	objKeyArr.forEach((key) => {
-		promiseArr.push(obj[key]);
-	});
-
-	let results;
+async function promiseMap<MapType extends PromiseMap>(obj: MapType): ResolvedPromiseMap<MapType>;
+async function promiseMap<MapType extends PromiseMap>(obj: MapType, settleAll: true): ResolvedPromiseMap<MapType>;
+async function promiseMap<MapType extends PromiseMap>(obj: MapType, settleAll: false): ResolvedPromiseMap<MapType>;
+async function promiseMap<MapType extends PromiseMap>(obj: MapType, settleAll = false): ResolvedPromiseMap<MapType> {
+	const entries = Object.entries(obj);
+	const awaitedEntries = await Object.entries(obj).map(async ([key, promise]) => [key, await promise]);
 
 	if (settleAll) {
-		results = await Promise.allSettled(promiseArr);
+		const settledEntries = await Promise.allSettled(awaitedEntries);
+		return Object.fromEntries(
+			settledEntries.map((result, index) => {
+				const [key] = entries[index];
+				if (result.status === 'fulfilled') return [key, result.value];
+				else return [key, result.reason];
+			})
+		) as ResolvedPromiseMap<MapType>;
 	} else {
-		results = await Promise.all(promiseArr).catch((err) => {
-			throw err;
-		});
+		return Object.fromEntries(await Promise.all(awaitedEntries).catch(e => { throw e }));
 	}
-
-	return objKeyArr.reduce((newObj: Partial<Record<keyof MapType, () => any>>, key, index) => {
-		newObj[key] = results[index];
-		return newObj;
-	}, {}) as Record<keyof MapType, () => any>;
 }
 
 export {
 	promiseMap
 };
+
