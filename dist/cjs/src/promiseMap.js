@@ -12,23 +12,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.promiseMap = void 0;
 function promiseMap(obj_1) {
     return __awaiter(this, arguments, void 0, function* (obj, settleAll = false) {
-        const objKeyArr = Object.keys(obj);
-        const promiseArr = [];
-        objKeyArr.forEach((key) => {
-            promiseArr.push(obj[key]);
-        });
+        const objKeys = Object.keys(obj);
+        const promises = objKeys.map((key) => obj[key]);
         let results;
         if (settleAll) {
-            results = yield Promise.allSettled(promiseArr);
+            results = yield Promise.allSettled(promises);
         }
         else {
-            results = yield Promise.all(promiseArr).catch((err) => {
-                throw err;
-            });
+            results = yield Promise.all(promises);
         }
-        return objKeyArr.reduce((newObj, key, index) => {
-            newObj[key] = results[index];
-            return newObj;
+        return objKeys.reduce((acc, key, index) => {
+            acc[key] = results[index];
+            return acc;
         }, {});
     });
 }

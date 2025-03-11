@@ -62,4 +62,15 @@ describe("promiseMap()", () => {
         node_assert_1.default.strictEqual(result.bar.status, "rejected", "Resolved value is correct");
         node_assert_1.default.strictEqual(result.bar.reason, 4321, "Resolved value is correct");
     }));
+    it("Will correctly infer TypeScript type from return value", () => __awaiter(void 0, void 0, void 0, function* () {
+        function asyncTest() {
+            return __awaiter(this, void 0, void 0, function* () {
+                return { "foo": "hello" };
+            });
+        }
+        const result = yield (0, promiseMap_1.promiseMap)({
+            asyncTest: asyncTest()
+        });
+        node_assert_1.default.strictEqual(result.asyncTest.foo, "hello", "Resolved value is correct");
+    }));
 });

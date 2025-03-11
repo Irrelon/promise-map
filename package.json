@@ -1,6 +1,6 @@
 {
   "name": "@irrelon/promise-map",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "description": "Simple helper function to name promises rather than handling them as an array of unnamed indexes.",
   "main": "dist/cjs/src/promiseMap.js",
   "module": "dist/esm/src/promiseMap.js",

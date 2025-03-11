@@ -1,5 +1,5 @@
 import assert from "node:assert";
-import { promiseMap } from "../src/promiseMap";
+import { promiseMap } from "../src/promiseMap.js"
 describe("promiseMap()", () => {
     it("Will resolve correctly to an object", async () => {
         const result = await promiseMap({
@@ -47,5 +47,14 @@ describe("promiseMap()", () => {
         assert.strictEqual(result.foo.value, 1234, "Resolved value is correct");
         assert.strictEqual(result.bar.status, "rejected", "Resolved value is correct");
         assert.strictEqual(result.bar.reason, 4321, "Resolved value is correct");
+    });
+    it("Will correctly infer TypeScript type from return value", async () => {
+        async function asyncTest() {
+            return { "foo": "hello" };
+        }
+        const result = await promiseMap({
+            asyncTest: asyncTest()
+        });
+        assert.strictEqual(result.asyncTest.foo, "hello", "Resolved value is correct");
     });
 });

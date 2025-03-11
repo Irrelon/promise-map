@@ -55,4 +55,16 @@ describe("promiseMap()", () => {
 		assert.strictEqual(result.bar.status, "rejected", "Resolved value is correct");
 		assert.strictEqual(result.bar.reason, 4321, "Resolved value is correct");
 	});
+
+	it("Will correctly infer TypeScript type from return value", async () => {
+		async function asyncTest (): Promise<{foo: string}> {
+			return {"foo": "hello"};
+		}
+
+		const result = await promiseMap({
+			asyncTest: asyncTest()
+		});
+
+		assert.strictEqual(result.asyncTest.foo, "hello", "Resolved value is correct");
+	});
 });
